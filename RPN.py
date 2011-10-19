@@ -74,34 +74,32 @@ class RPNParser(object):
                  (provided that operators are properly defined).
         """
         #TODO: optimize, check, test
-        temp_stack = []
+        stack = []
         output = RPNExpression()
         for atom in infix_expression:
             if atom == self.open_parenthesis:
-                temp_stack.append(atom)
+                stack.append(atom)
             elif atom == self.close_parenthesis:
-                element = temp_stack.pop()
+                element = stack.pop()
                 while str(element) != self.open_parenthesis:
                     output.append(element)
-                    element = temp_stack.pop()
+                    element = stack.pop()
             elif atom in self.operators:
-                if len(temp_stack) == 0 or str(temp_stack[-1]) == self.open_parenthesis or temp_stack[-1].priority < atom.priority:
-                    temp_stack.append(atom)
-                elif isinstance(temp_stack[-1], RPNOperator) and temp_stack[-1].priority >= atom.priority:
-                    output.append(temp_stack.pop())
-                    while (len(temp_stack) > 0 and 
-                           isinstance(temp_stack[-1], RPNOperator) and 
-                           temp_stack[-1].priority >= atom.priority):
+                if len(stack) == 0 or str(stack[-1]) == self.open_parenthesis or stack[-1].priority < atom.priority:
+                    stack.append(atom)
+                elif isinstance(stack[-1], RPNOperator) and stack[-1].priority >= atom.priority:
+                    output.append(stack.pop())
+                    while (len(stack) > 0 and 
+                           isinstance(stack[-1], RPNOperator) and 
+                           stack[-1].priority >= atom.priority):
                         output.append(atom.priority.pop())
-                    temp_stack.append(atom)
+                    stack.append(atom)
             else:
                 #this is an operand
                 output.append(atom)
-        while len(temp_stack) > 0:
-            output.append(temp_stack.pop())
+        while len(stack) > 0:
+            output.append(stack.pop())
         return output
-        expr = RPNExpression()
-        return expr
 
 class RPNExpression(list):
     def evaluate(self):
