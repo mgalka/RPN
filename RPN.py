@@ -1,3 +1,13 @@
+class ParenthesisMismatchError(Exception):
+    """ Raised when opening parentheses in infix notation doesn't match
+        the closing ones.
+    """
+    def __init__(self, *args):
+        Exception.__init__(self, *args)
+
+    def __str__(self):
+        return "Parentheses mismatch"
+
 class RPNOperator(object):
     """
     An operator in terms of Reversed Polish Notation.
@@ -63,6 +73,18 @@ class RPNParser(object):
         self.close_parenthesis = close_parenthesis
         self.operators = operators[:]
 
+    def check_parentheses(self, infix_expression):
+        counter = 0
+        for ch in infix_expression:
+            if ch == self.open_parenthesis:
+                counter += 1
+            if ch == self.close_parenthesis:
+                counter -= 1
+                if counter < 0:
+                    raise ParenthesisMismatchError
+        if counter:
+            raise ParenthesisMismatchError
+
     def generateRPNExpression(self, infix_expression):
         """
         parses the expression in infix notation. It needs properly defined
@@ -74,6 +96,7 @@ class RPNParser(object):
                  (provided that operators are properly defined).
         """
         #TODO: optimize, check, test
+        self.check_parentheses(infix_expression)
         stack = []
         output = RPNExpression()
         for atom in infix_expression:
@@ -100,8 +123,8 @@ class RPNParser(object):
             else:
                 #this is an operand
                 output.append(atom)
-        while len(stack) > 0:
-            output.append(stack.pop())
+        output.extend(stack[::-1])
+        stack = []
         return output
 
 
