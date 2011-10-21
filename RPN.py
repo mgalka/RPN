@@ -51,7 +51,7 @@ class RPNParser(object):
         """
         initializes the parser.
         @type operators: list
-        @param operators: list of RPNOperator objects. 
+        @param operators: list of RPNOperator objects.
                           These operators will be used in parsing process
         @type open_parenthesis: string
         @param open_parenthesis: a symbol that will be interpreted as
@@ -85,12 +85,15 @@ class RPNParser(object):
                     output.append(element)
                     element = stack.pop()
             elif atom in self.operators:
-                if len(stack) == 0 or str(stack[-1]) == self.open_parenthesis or stack[-1].priority < atom.priority:
+                if (len(stack) == 0 or
+                    str(stack[-1]) == self.open_parenthesis or
+                    stack[-1].priority < atom.priority):
                     stack.append(atom)
-                elif isinstance(stack[-1], RPNOperator) and stack[-1].priority >= atom.priority:
+                elif (isinstance(stack[-1], RPNOperator) and
+                      stack[-1].priority >= atom.priority):
                     output.append(stack.pop())
-                    while (len(stack) > 0 and 
-                           isinstance(stack[-1], RPNOperator) and 
+                    while (len(stack) > 0 and
+                           isinstance(stack[-1], RPNOperator) and
                            stack[-1].priority >= atom.priority):
                         output.append(atom.priority.pop())
                     stack.append(atom)
@@ -100,6 +103,7 @@ class RPNParser(object):
         while len(stack) > 0:
             output.append(stack.pop())
         return output
+
 
 class RPNExpression(list):
     def evaluate(self):
