@@ -112,7 +112,7 @@ class RPNParser(object):
                     if infix_expression[pos:pos + length] == symbol:
                         if slice_begin < pos:
                             expr_list.append(infix_expression[slice_begin: pos])
-                        expr_list.append(infix_expression[pos: pos + length])
+                        expr_list.append(obj)
                         pos += length
                         slice_begin = pos
                         break
@@ -153,12 +153,6 @@ class RPNParser(object):
         output = RPNExpression()
         infix_expr_list = self._infix_to_list(infix_expression)
         for atom in infix_expr_list:
-            print "ATOM: " + atom
-            print "STACK: " + str(stack)
-            print "OUTPUT: " + str(output)
-            print "OPERATORS: " + str(self.operators)
-            print "EXPR LIST: " + str(infix_expr_list)
-            print 5 * '='
             if atom == self.open_parenthesis:
                 stack.append(atom)
             elif atom == self.close_parenthesis:
@@ -188,8 +182,8 @@ class RPNParser(object):
 
 
 class RPNExpression(list):
-    def evaluate(self):
+    def evaluate(self, values=None):
         pass
 
     def __str__(self):
-        return ' '.join(self)
+        return ' '.join([str(item) for item in self])
