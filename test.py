@@ -51,31 +51,31 @@ class TestInfixConversionToRPN(unittest.TestCase):
 
     def testInfixExpressionToList(self):
         infix_expression = '(12*4)+5'
-        expected_result = ['(','12','*','4',')','+','5']
+        expected_result = ['(','12',self.operators[2],'4',')',self.operators[0],'5']
         parser = RPN.RPNParser(self.operators, open_parenthesis='(', close_parenthesis=')')
         self.assertEqual(parser._infix_to_list(infix_expression), expected_result)
 
     def testInfixExpressionToListWithLongParenthesisSymbols(self):
         infix_expression = '((12*4)))+5'
-        expected_result = ['((','12','*','4',')))','+','5']
+        expected_result = ['((','12',self.operators[2],'4',')))',self.operators[0],'5']
         parser = RPN.RPNParser(self.operators, open_parenthesis='((', close_parenthesis=')))')
         self.assertEqual(parser._infix_to_list(infix_expression), expected_result)
 
     def testInfixExpressionToListWithLongOperatorSymbols(self):
         infix_expression = '(12****4)++5'
-        expected_result = ['(','12','****','4',')','++','5']
+        expected_result = ['(','12',self.long_operators[2],'4',')',self.long_operators[0],'5']
         parser = RPN.RPNParser(self.long_operators, open_parenthesis='(', close_parenthesis=')')
         self.assertEqual(parser._infix_to_list(infix_expression), expected_result)
 
     def testInfixExpressionToListWithLiteralsBeginingLikeOperator(self):
         infix_expression = '(12****4)+5'
-        expected_result = ['(','12','****','4',')','+5']
+        expected_result = ['(','12',self.long_operators[2],'4',')','+5']
         parser = RPN.RPNParser(self.long_operators, open_parenthesis='(', close_parenthesis=')')
         self.assertEqual(parser._infix_to_list(infix_expression), expected_result)
 
     def testInfixExpressionToListWithLongOperatorSymbolsAndLongParenthesis(self):
         infix_expression = '((12****4))++5'
-        expected_result = ['((','12','****','4','))','++','5']
+        expected_result = ['((','12',self.long_operators[2],'4','))',self.long_operators[0],'5']
         parser = RPN.RPNParser(self.long_operators, open_parenthesis='((', close_parenthesis='))')
         self.assertEqual(parser._infix_to_list(infix_expression), expected_result)
 
