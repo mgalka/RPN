@@ -11,11 +11,8 @@ RPN.py is a simple module that facilitates conversion from infix notation (e.g. 
 Implementation status
 =====================
 [x] Custom operators definition (RPNOperator class)
-
 [x] Infix to postfix conversion (RPNParser class)
-
 [] Postfix expression evaluation
-
 [] Usage examples
 
 
