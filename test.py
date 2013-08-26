@@ -39,14 +39,12 @@ class TestInfixConversionToRPN(unittest.TestCase):
         infix_expression = "2+2"
         parser = RPN.RPNParser(self.operators, open_parenthesis='(', close_parenthesis=')')
         rpn_expr = parser.generate_rpn_expression(infix_expression)
-        print rpn_expr
         self.assertEqual(str(rpn_expr), "2 2 +")
 
     def testExpressionWithSymbolsLongerThanOneChar(self):
         infix_expression = "25+2-132"
         parser = RPN.RPNParser(self.operators, open_parenthesis='(', close_parenthesis=')')
         rpn_expr = parser.generate_rpn_expression(infix_expression)
-        print rpn_expr
         self.assertEqual(str(rpn_expr), "25 2 + 132 -")
 
     def testInfixExpressionToList(self):
