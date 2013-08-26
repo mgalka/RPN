@@ -183,7 +183,7 @@ class RPNParser(object):
 
 class RPNExpression(list):
     def evaluate(self, values=None):
-        pass
+        raise NotImplementedError
 
     def __str__(self):
         return ' '.join([str(item) for item in self])
